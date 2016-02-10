@@ -31,4 +31,12 @@ interface TwilioInterface
      * @return \Services_Twilio_Rest_Call
      */
     public function call($to, $message, array $options = [], $from = null);
+
+    /**
+     * @param string $phone
+     * @param string $countryCode
+     *
+     * @return \Services_Twilio_Rest_Lookups_PhoneNumber
+     */
+    public function phoneLookup($phone, $countryCode);
 }

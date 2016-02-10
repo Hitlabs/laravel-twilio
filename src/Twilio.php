@@ -72,6 +72,19 @@ class Twilio implements TwilioInterface
     }
 
     /**
+     * @param string $phone
+     * @param string $countryCode
+     *
+     * @return \Services_Twilio_Rest_Lookups_PhoneNumber
+     */
+    public function phoneLookup($phone, $countryCode)
+    {
+        $twilioLookup = $this->getTwilioLookup();
+        $number = $twilioLookup->phone_numbers->get($phone, array("CountryCode" => $countryCode));
+        return $number;
+    }
+
+    /**
      * @param string $to
      * @param string|callable $message
      * @param array $options
@@ -111,6 +124,25 @@ class Twilio implements TwilioInterface
         }
 
         return new Services_Twilio($this->sid, $this->token, null, isset($http) ? $http : null);
+    }
+
+    /**
+     * @return \Lookups_Services_Twilio
+     */
+    public function getTwilioLookup()
+    {
+        if (!$this->sslVerify) {
+            $http = new Services_Twilio_TinyHttp(
+                'https://lookups.twilio.com',
+                ['curlopts' => [
+                        CURLOPT_SSL_VERIFYPEER => false,
+                        CURLOPT_SSL_VERIFYHOST => 2,
+                    ],
+                ]
+            );
+        }
+
+        return new \Lookups_Services_Twilio($this->sid, $this->token, null, isset($http) ? $http : null);
     }
 
     /**

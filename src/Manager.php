@@ -85,6 +85,17 @@ class Manager implements TwilioInterface
     }
 
     /**
+     * @param string $phone
+     * @param string $countryCode
+     *
+     * @return \Services_Twilio_Rest_Lookups_PhoneNumber
+     */
+    public function phoneLookup($phone, $countryCode)
+    {
+        return $this->defaultConnection()->phoneLookup($phone, $countryCode);
+    }
+
+    /**
      * @return \Aloha\Twilio\TwilioInterface
      */
     public function defaultConnection()
